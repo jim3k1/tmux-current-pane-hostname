@@ -3,7 +3,15 @@
 get_tmux_option() {
     local option=$1
     local default_value=$2
-    local option_value=$(tmux show-option -gqv "$option")
+    case $option in
+        "status-right" | "status-left")
+            local option_value=$(tmux show-options -gqv "$option")
+            ;;
+        "window-status-current-format")
+            local option_value=$(tmux show-window-options -gqv "$option")
+            ;;
+    esac
+
     if [ -z "$option_value" ]; then
         echo "$default_value"
     else
