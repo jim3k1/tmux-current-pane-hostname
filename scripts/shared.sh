@@ -22,7 +22,14 @@ get_tmux_option() {
 set_tmux_option() {
     local option=$1
     local value=$2
-    tmux set-option -gq "$option" "$value"
+    case $option in
+        "status-right" | "status-left")
+            tmux set-option -gq "$option" "$value"
+            ;;
+        "window-status-current-format")
+            tmux set-window-options -gq "$option" "$value"
+            ;;
+    esac
 }
 
 parse_ssh_port() {
