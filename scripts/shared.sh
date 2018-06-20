@@ -3,15 +3,7 @@
 get_tmux_option() {
     local option=$1
     local default_value=$2
-    case $option in
-        "status-right" | "status-left")
-            local option_value=$(tmux show-options -gqv "$option")
-            ;;
-        "window-status-current-format")
-            local option_value=$(tmux show-window-options -gqv "$option")
-            ;;
-    esac
-
+    local option_value=$(tmux show-option -gqv "$option")
     if [ -z "$option_value" ]; then
         echo "$default_value"
     else
@@ -22,19 +14,12 @@ get_tmux_option() {
 set_tmux_option() {
     local option=$1
     local value=$2
-    case $option in
-        "status-right" | "status-left")
-            tmux set-option -gq "$option" "$value"
-            ;;
-        "window-status-current-format")
-            tmux set-window-options -gq "$option" "$value"
-            ;;
-    esac
+    tmux set-option -gq "$option" "$value"
 }
 
 parse_ssh_port() {
     # If there is a port get it
-    local port=$(echo $1 | grep -Eo '\-p ([0-9]+)' | sed 's/-p //')
+    local port=$(echo $1|grep -Eo '\-p ([0-9]+)'|sed 's/-p //')
 
     if [ -z $port ]; then
         local port=22
@@ -47,17 +32,17 @@ get_ssh_user() {
     local ssh_user=$(whoami)
 
     for ssh_config in `awk '
-    $1 == "Host" {
-      gsub("\\\\.", "\\\\.", $2);
-      gsub("\\\\*", ".*", $2);
-      host = $2;
-      next;
-    }
-    $1 == "User" {
-      $1 = "";
-      sub( /^[[:space:]]*/, "" );
-      printf "%s|%s\n", host, $0;
-    }' .ssh/config`; do
+        $1 == "Host" {
+          gsub("\\\\.", "\\\\.", $2);
+          gsub("\\\\*", ".*", $2);
+          host = $2;
+          next;
+        }
+        $1 == "User" {
+          $1 = "";
+          sub( /^[[:space:]]*/, "" );
+          printf "%s|%s\n", host, $0;
+        }' .ssh/config`; do
         local host_regex=${ssh_config%|*}
         local host_user=${ssh_config#*|}
         if [[ "$1" =~ $host_regex ]]; then
@@ -73,14 +58,14 @@ get_remote_info() {
     local command=$1
 
     # First get the current pane command pid to get the full command with arguments
-    local cmd=$({pgrep -flaP `tmux display-message -p "#{pane_pid}"`; ps -o command -p `tmux display-message -p "#{pane_pid}"`;} | xargs -I{} echo {} | grep ssh | sed -E 's/^[0-9]*[[:blank:]]*ssh //')
+    local cmd=$({ pgrep -flaP `tmux display-message -p "#{pane_pid}"` ; ps -o command -p `tmux display-message -p "#{pane_pid}"` ; } | xargs -I{} echo {} | grep ssh | sed -E 's/^[0-9]*[[:blank:]]*ssh //')
 
     local port=$(parse_ssh_port "$cmd")
 
     local cmd=$(echo $cmd|sed 's/\-p '"$port"'//g')
 
-    local user=$(echo $cmd | awk '{print $NF}' | cut -f1 -d@)
-    local host=$(echo $cmd | awk '{print $NF}' | cut -f2 -d@)
+    local user=$(echo $cmd | awk '{print $NF}'|cut -f1 -d@)
+    local host=$(echo $cmd | awk '{print $NF}'|cut -f2 -d@)
 
     if [ $user == $host ]; then
         local user=$(get_ssh_user $host)
@@ -96,7 +81,7 @@ get_remote_info() {
         *)
             echo "$user@$host:$port"
             ;;
-        esac
+    esac
 }
 
 get_info() {
