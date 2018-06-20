@@ -19,7 +19,7 @@ set_tmux_option() {
 
 parse_ssh_port() {
     # If there is a port get it
-    local port=$(echo $1|grep -Eo '\-p ([0-9]+)'|sed 's/-p //')
+    local port=$(echo $1 | grep -Eo '\-p ([0-9]+)' | sed 's/-p //')
 
     if [ -z $port ]; then
         local port=22
@@ -58,7 +58,7 @@ get_remote_info() {
     local command=$1
 
     # First get the current pane command pid to get the full command with arguments
-    local cmd=$({ pgrep -flaP $(tmux display-message -p "#{pane_pid}"); ps -o command -p $(tmux display-message -p "#{pane_pid}"); } | xargs -I {} echo {} | grep ssh | sed -E 's/^[0-9]*[[:blank:]]*ssh //')
+    local cmd=$({ pgrep -flaP $(tmux display-message -p "#{pane_pid}"); ps -o command -p $(tmux display-message -p "#{pane_pid}"); } | xargs -I {} echo {} | grep ssh | cut -d ' ' -f 3-)
 
     local port=$(parse_ssh_port "$cmd")
 
