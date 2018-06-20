@@ -37,8 +37,8 @@ update_tmux_option() {
 main() {
     update_tmux_option "status-right"
     update_tmux_option "status-left"
+    update_tmux_option "window-status-current-format"
 
 }
 
 main
-
