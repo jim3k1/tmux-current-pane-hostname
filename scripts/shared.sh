@@ -4,12 +4,12 @@ get_tmux_option() {
     local option=$1
     local default_value=$2
     case $option in
-		"status-right" | "status-left")
-		    local option_value=$(tmux show-options -gqv "$option")
-			;;
-		"window-status-current-format")
-		    local option_value=$(tmux show-window-options -gv "$option")
-			;;
+        "status-right" | "status-left")
+            local option_value=$(tmux show-options -gqv "$option")
+            ;;
+        "window-status-current-format")
+            local option_value=$(tmux show-window-options -gv "$option")
+            ;;
     esac
 
     if [ -z "$option_value" ]; then
@@ -23,12 +23,12 @@ set_tmux_option() {
     local option=$1
     local value=$2
     case $option in
-		"status-right" | "status-left")
-		    tmux set-option -gqv "$option"
-			;;
-		"show-window-options")
-		    tmux set-window-option -g "$option"
-			;;
+        "status-right" | "status-left")
+            tmux set-option -gqv "$option"
+            ;;
+        "show-window-options")
+            tmux set-window-option -g "$option"
+            ;;
     esac
 
     tmux set-option -gq "$option" "$value"
