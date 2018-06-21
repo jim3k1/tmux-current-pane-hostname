@@ -75,7 +75,7 @@ get_remote_info() {
     local command=$1
 
     # First get the current pane command pid to get the full command with arguments
-    local cmd=$({ pgrep -flaP $(tmux display-message -p "#{pane_pid}"); ps -o command -p $(tmux display-message -p "#{pane_pid}"); } | xargs -I {} echo {} | grep ssh | cut -d ' ' -f 3-)
+    local cmd=$({ pgrep -flaP $(tmux display-message -p "#{pane_pid}"); ps -o command -p $(tmux display-message -p "#{pane_pid}"); } | grep ssh | cut -d ' ' -f 3-)
 
     local port=$(parse_ssh_port "$cmd")
 
@@ -88,7 +88,7 @@ get_remote_info() {
         local user=$(get_ssh_user $host)
     fi
 
-    case "$1" in
+    case "$command" in
         "whoami")
             echo $user
             ;;
