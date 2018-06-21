@@ -6,8 +6,8 @@ get_tmux_option() {
     case $option in
     "status-right" | "status-left")
         local option_value=$(tmux show-options -gqv "$option")
-         ;;
-    "show-window-options")
+        ;;
+    "window-status-current-format")
         local option_value=$(tmux show-window-options -gqv "$option")
         ;;
     esac
