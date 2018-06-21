@@ -8,7 +8,7 @@ get_tmux_option() {
         local option_value=$(tmux show-options -gqv "$option")
         ;;
     "window-status-current-format")
-        local option_value=$(tmux show-window-options -gqv "$option")
+        local option_value=$(tmux show-window-options -gv "$option")
         ;;
     esac
 
