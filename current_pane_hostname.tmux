@@ -2,8 +2,6 @@
 
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-better_hostname="#($CURRENT_DIR/scripts/better_hostname.sh)"
-
 interpolation=('\#H' '\#U')
 script=("#($CURRENT_DIR/scripts/hostname.sh)" "#($CURRENT_DIR/scripts/whoami.sh)")
 
