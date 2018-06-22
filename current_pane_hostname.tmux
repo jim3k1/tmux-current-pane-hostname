@@ -3,12 +3,9 @@
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 better_hostname="#($CURRENT_DIR/scripts/better_hostname.sh)"
-better_user="#($CURRENT_DIR/scripts/better_user.sh)"
-better_path="#($CURRENT_DIR/scripts/better_path.sh)"
 
 interpolation=('\#H' '\#U')
 script=("#($CURRENT_DIR/scripts/hostname.sh)" "#($CURRENT_DIR/scripts/whoami.sh)")
-
 
 source $CURRENT_DIR/scripts/shared.sh
 
