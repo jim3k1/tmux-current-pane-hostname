@@ -4,6 +4,8 @@ Tmux plugin that enables displaying hostname and user of the current pane in you
 
 Replaces the `#H` format and adds a `#U` format option.
 
+Added option to use these two variables in window-status-current-format option.
+
 ### Usage
 
 - `#H` will be the hostname of your current path. If there is an ssh session opened, the ssh hostname will show instead of the local one.
@@ -13,6 +15,8 @@ Here's the example in `.tmux.conf`:
 
 ```bash
 set -g status-right '#[fg=cyan,bold] #U@#H #[default]#[fg=blue]#(tmux display-message -p "#{pane_current_path}" | sed "s#$HOME#~#g") #[fg=red]%H:%M %d-%b-%y#[default]'
+
+set -g window-status-current-format "#I: #W #U@#H"
 ```
 
 ### Installation with [Tmux Plugin Manager](https://github.com/tmux-plugins/tpm) (recommended)
