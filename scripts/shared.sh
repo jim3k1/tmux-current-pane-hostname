@@ -24,10 +24,10 @@ set_tmux_option() {
     local value=$2
     case $option in
         "status-right" | "status-left")
-            tmux set-option -gqv "$option" "$value"
+            tmux set-option -gq "$option" "$value"
             ;;
         "window-status-current-format")
-            tmux set-window-option -g "$option" "$value"
+            tmux set-window-option -gq "$option" "$value"
             ;;
     esac
 
