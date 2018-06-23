@@ -4,7 +4,7 @@ Tmux plugin that enables displaying hostname and user of the current pane in you
 
 Replaces the `#H` format and adds a `#U` format option.
 
-Added option to use these two variables in window-status-current-format option.
+Added option to use those two variables in window-status-current-format option.
 
 ### Usage
 
